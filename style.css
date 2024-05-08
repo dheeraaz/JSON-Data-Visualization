@@ -33,17 +33,19 @@ body{
     max-width: 240px;
   }
   
-  .form-input input {
+  .form-input label {
     flex: 1;
     padding: 11px 10px;
     font-size: 0.75rem;
     border: 2px #818CF8 solid;
     border-radius: 5px;
     background: #e8e8e8;
+    transition: 0.5s;
   }
-  
-  .form-input input:focus {
-    outline: none;
+
+  .form-input label:hover{
+    border:2px #818CF8 solid;
+    background-color: #818CF8;
   }
 
 /* input box css */

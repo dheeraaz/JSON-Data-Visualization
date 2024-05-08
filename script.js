@@ -1,10 +1,10 @@
 
 const inputFile = document.getElementById("input-file");
+const topBtn = document.getElementById("top-btn");
 
 //for reading input file
 inputFile.addEventListener("change", (e) => {
     const fl_file = e.target.files[0];
-
     let reader = new FileReader(); // built in API
 
     // Read the file as text.
@@ -39,15 +39,15 @@ document.addEventListener("JSONDataLoaded", (e) => {
 
     const tableBody = document.getElementById("table-body");
     const wholeTable = document.querySelector(".table");
-    
+
     wholeTable.classList.remove("d-none");
 
     finalData.forEach((data) => {
         // console.log(data);
-        const tableData = `<th scope="row">${data.id}</th>` + 
-        `<td>${data.fname} ${data.lname}</td>` + 
-        `<td>${data.company}</td>` + 
-        `<td><button type="button" class="btn btn-primary" id="${data.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button></td>`;
+        const tableData = `<th scope="row">${data.id}</th>` +
+            `<td>${data.fname} ${data.lname}</td>` +
+            `<td>${data.balance}</td>` +
+            `<td><button type="button" class="btn btn-primary" id="${data.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button></td>`;
 
         const tableRow = document.createElement("tr");
         tableRow.innerHTML = tableData;
@@ -59,35 +59,41 @@ document.addEventListener("JSONDataLoaded", (e) => {
 })
 
 
-function modelDescription(fD){
+function modelDescription(fD) {
     let finalData = fD;
     const btns = document.querySelectorAll(".btn-primary");
 
     const fullName = document.getElementById("full-name");
     const userAge = document.getElementById("user-age");
-    const userBalance = document.getElementById("user-balance");
-    const userGender = document.getElementById("user-gender");
-    const userCompany = document.getElementById("user-company");
-    const userPhone = document.getElementById("user-phone");
-    const userAddress = document.getElementById("user-address");
+    const userDetail = document.getElementById("user-detail");
 
-    btns.forEach((btn)=>{
-        btn.addEventListener("click", ()=>{
-            finalData.forEach((data)=>{
-                if(btn.id==data.id){ //here, btn.id is string and data.id is number
+    btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            userDetail.innerHTML = "";
+            finalData.forEach((data) => {
+                if (btn.id == data.id) { //here, btn.id is string and data.id is number
                     fullName.innerText = data.fname + " " + data.lname + ", ";
                     userAge.innerText = data.age + " ";
-                    userBalance.innerText = data.balance;
-                    userGender.innerText = data.gender;
-                    userCompany.innerText = data.company;
-                    userPhone.innerText = data.phone;
-                    userAddress.innerText = data.address;
+
+                    for (let key in data) {
+                        if (key === "fname" || key === "lname" || key === "age") {
+                            continue;
+                        }
+                        let li = document.createElement("li");
+                        li.innerText = `${key}: ${data[key]}`;
+                        userDetail.appendChild(li);
+                    }
                 }
             })
         })
     })
 }
 
+
+document.addEventListener("JSONDataLoaded",()=>{
+    topBtn.innerText = "File Selected";
+    topBtn.style.backgroundColor = "#818CF8";
+})
 
 
 
